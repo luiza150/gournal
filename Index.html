@@ -1,30 +1,26 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Журнал оценок</title>
-  <link rel="stylesheet" href="style/styles.css">
-  <script src="scripts/script.js"></script>
+  <link rel="stylesheet" href="styles.css">
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
-<body>
-  <div class="page">
-    <div class="header">
-        <div class="image">
-            <img src="img/sign.png" width="100px" alt="мдэ">
-            <span>Journal</span>
-        </div>
-        <div id="tabs-container">
-          <button class="tabButton" onclick="openTab(event, 'uploadTab')" id="defaultOpen">Загрузка</button>
-          <button class="tabButton" onclick="openTab(event, 'editTab')">Редактирование</button>
-          <button class="tabButton" onclick="openTab(event, 'statsTab')">Вывод(таблица)</button>
-          <button class="tabButton" onclick="openTab(event, 'graphTab')">Вывод(график)</button>
-          <button class="tabButton" onclick="openTab(event, 'helpTab')">Помощь</button>
-          <button class="tabButton" onclick="openTab(event, 'devTab')">О разработчике</button>
-        </div>
-    </div>
 
+<body>
+  <div  class="tabs-container">
+    <div class="content">
+      <ul id="tabs">
+        <li class="tabButton" onclick="openTab('uploadTab')">Загрузка</li>
+        <li class="tabButton" onclick="openTab('editTab')">Редактирование</li>
+        <li class="tabButton" onclick="openTab('statsTab')">Вывод(таблица)</li>
+        <li class="tabButton" onclick="openTab('graphTab')">Вывод(график)</li>
+        <li class="tabButton" onclick="openTab('helpTab')">Помощь</li>
+        <li class="tabButton" onclick="openTab('devTab')">О разработчике</li>
+      </ul>
+    </div>
+  </div>
   <div id="uploadTab" class="tab">
     <div id="uploadButtons" class="file-upload"></div>
     <!-- Таблица для отображения данных -->
@@ -55,59 +51,42 @@
           <th>Математика</th>
           <th>Литература</th>
           <th>Музыка</th>
-          <th>Действия</th>
+          <th style="background-color:brown; color: aliceblue;">Изменить</th>
         </tr>
       </thead>
       <tbody id="existingDataBody"></tbody>
     </table>
     
     <div id="studentInputContainer">
-      <label for="studentName">ФИО:</label>
       <input type="text" id="studentName" placeholder="Введите ФИО">
-  
-      <label for="studentClass">Класс:</label>
       <input type="text" id="studentClass" placeholder="Введите класс">
-  
-      <label for="informaticsGrade">Информатика:</label>
       <input type="text" id="informaticsGrade" placeholder="Введите оценку по информатике">
-      
-      <label for="physicsGrade">Физика:</label>
       <input type="text" id="physicsGrade" placeholder="Введите оценку по физике">
-  
-      <label for="mathGrade">Математика:</label>
       <input type="text" id="mathGrade" placeholder="Введите оценку по математике">
-  
-      <label for="literatureGrade">Литература:</label>
       <input type="text" id="literatureGrade" placeholder="Введите оценку по литературе">
-  
-      <label for="musicGrade">Музыка:</label>
       <input type="text" id="musicGrade" placeholder="Введите оценку по музыке">
-      <!-- Добавьте аналогичные поля для других предметов -->
-  
-      <button id="addStudentBtn" onclick="addStudent()">Добавить ученика</button>
-      <!-- Кнопка "Применить изменения" -->
-      <button id="applyChangesBtn" onclick="applyChanges()">Применить изменения</button>
-
+      <button  id="addStudentBtn" onclick="addStudent()">Добавить</button>
+      <button  id="applyChangesBtn" onclick="applyChanges()">Применить</button>
+      <button  id="downloadBtn" onclick="chooseAndDownloadFormat()">Скачать</button>
     </div>
   </div>
 
   <div id="statsTab" class="tab">
-    <!-- Таблица для отображения статистики -->
     <table id="statsTable">
       <thead>
         <tr>
           <th>Класс</th>
           <th>Предмет</th>
           <th>Средняя оценка</th>
-          <th>Медиана</th>
-          <th>Кол-во учеников с оценкой 2</th>
-          <th>Кол-во учеников с оценкой 3</th>
-          <th>Кол-во учеников с оценкой 4</th>
-          <th>Кол-во учеников с оценкой 5</th>
-          <th>% учеников с оценкой 2</th>
-          <th>% учеников с оценкой 3</th>
-          <th>% учеников с оценкой 4</th>
-          <th>% учеников с оценкой 5</th>
+          <th>Медиана оценок</th>
+          <th>Ученики(2)</th>
+          <th>Ученики(3)</th>
+          <th>Ученики(4)</th>
+          <th>Ученики(5)</th>
+          <th>%(2)</th>
+          <th>%(3)</th>
+          <th>%(4)</th>
+          <th>%(5)</th>
         </tr>
       </thead>
       <tbody id="statsTableBody"></tbody>
@@ -115,50 +94,50 @@
   </div>
 
   <div id="graphTab" class="tab">
-    <canvas id="myChart" width="400" height="400"></canvas>
+    <canvas id="myChart" height="400"></canvas>
   </div>
 
   <div id="helpTab" class="tab">
     <h2>1. Загрузка оценок</h2>
-<p>
-В этой вкладке можно загрузить оценки из файла формата .csv .Выберите файл с данными и нажмите кнопку "Загрузить файл" . После загрузки файл будет отображен в таблице.
-</p>
+      <p>
+        В этой вкладке можно загрузить оценки из файла формата .csv .Выберите файл с данными и нажмите кнопку "Загрузить файл" . После загрузки файл будет отображен в таблице.
+      </p>
 
-<h2>2. Редактирование журнала</h2>
-<p>
-На этой вкладке можно создавать, редактировать и удалять записи об учениках. Введите ФИО и оценки, затем используйте кнопки для управления записями.
-</p>
+    <h2>2. Редактирование журнала</h2>
+      <p>
+        На этой вкладке можно создавать, редактировать и удалять записи об учениках. Введите ФИО и оценки, затем используйте кнопки для управления записями.
+      </p>
 
-<h2>3. Вывод (таблица)</h2>
-<p>
-Здесь табличная статистика для каждого класса и предмета, а также общая статистика для всех учеников. Представлены средняя оценка, медиана, количество и процент учеников для каждой оценки.
-</p>
+    <h2>3. Вывод (таблица)</h2>
+      <p>
+        Здесь табличная статистика для каждого класса и предмета, а также общая статистика для всех учеников. Представлены средняя оценка, медиана, количество и процент учеников для каждой оценки.
+      </p>
 
-<h2>4. Вывод (график)</h2>
-<p>
-На этой вкладке можно визуально оценить статистику в виде графиков. Графики показывают среднюю оценку по классам
-</p>
+    <h2>4. Вывод (график)</h2>
+      <p>
+        На этой вкладке можно визуально оценить статистику в виде графиков. Графики показывают среднюю оценку по классам
+      </p>
 
-<h2>5. Помощь</h2>
-<p>
-В данной секции представлена краткая информация о каждой вкладке, ее назначении и основных функциях.
-</p>
+    <h2>5. Помощь</h2>
+      <p>
+        В данной секции представлена краткая информация о каждой вкладке, ее назначении и основных функциях.
+      </p>
 
-<h2>6. О разработчике</h2>
-<p>
-Здесь представлены контактные данные разработчика.
-</p>
+    <h2>6. О разработчике</h2>
+      <p>
+        Здесь представлены контактные данные разработчика.
+      </p>
   </div>
 
   <div id="devTab" class="tab">
-    <div>
-      <img src="img/me.png" alt="nope">
-    </div>
-    <p>Ялхароева Луиза Башировна</p>
-    <p>студентка группы АБ-109</p>
-    <p>+79237017301</p>
+    <img src="112.jpg" alt="Картинка">
+      <ul>
+        <li>Ялхароева Луиза Башировна</li>
+        <li>Сибирский государственный университет телекоммуникаций и информатики</li>
+        <li>АБ-109</li>
+      </ul>
+    <p style="font-size: large;">Phone: +79237017301</p>
   </div>
-
   <script src="script.js"></script>
 </body>
 </html>
