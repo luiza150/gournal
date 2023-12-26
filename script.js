@@ -849,11 +849,11 @@ function calculateSubjectMedian() {
 
     classSubjects[className] = {
       subjects: {
-        'Инф.': { grades: [] },
-        'Физ.': { grades: [] },
-        'Мат.': { grades: [] },
-        'Лит.': { grades: [] },
-        'Муз.': { grades: [] },
+        'Информатика': { grades: [] },
+        'Физика': { grades: [] },
+        'Математика': { grades: [] },
+        'Литература': { grades: [] },
+        'Музыка': { grades: [] },
       },
     };
 
